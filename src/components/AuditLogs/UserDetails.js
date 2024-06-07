@@ -188,7 +188,7 @@ const UserDetails = () => {
         </>
       ) : (
         <>
-          <div className="lg:w-[70%] sm:w-[90%] w-full  mx-auto shadow-lg shadow-slate-600 p-8 rounded-md">
+          <div className="lg:w-[70%] sm:w-[90%] w-full  mx-auto shadow-lg shadow-gray-300 p-8 rounded-md">
             <div>
               <h1 className="text-slate-800 text-2xl font-bold  pb-4">
                 Profile Information
@@ -268,7 +268,7 @@ const UserDetails = () => {
               </form>
             </div>
           </div>
-          <div className="lg:w-[70%] sm:w-[90%] w-full  mx-auto shadow-lg shadow-slate-600 p-8 rounded-md">
+          <div className="lg:w-[70%] sm:w-[90%] w-full  mx-auto shadow-lg shadow-gray-300 p-8 rounded-md">
             <h1 className="text-slate-800 text-2xl font-bold  pb-4">
               Admin Actions
               <hr />
@@ -276,17 +276,17 @@ const UserDetails = () => {
 
             <div className="py-4 flex sm:flex-row flex-col sm:items-center items-start gap-4">
               <div className="flex items-center gap-2">
-                <label className="text-slate-700 text-xl font-semibold ">
+                <label className="text-slate-600 text-lg font-semibold ">
                   Role:{" "}
                 </label>
                 <select
-                  className=" px-8 py-1 rounded-md  border-2 uppercase border-slate-700 font-semibold "
+                  className=" px-8 py-1 rounded-md  border-2 uppercase border-slate-600  "
                   value={selectedRole}
                   onChange={handleRoleChange}
                 >
                   {roles.map((role) => (
                     <option
-                      className="bg-slate-200 flex flex-col gap-4 uppercase"
+                      className="bg-slate-200 flex flex-col gap-4 uppercase text-slate-700"
                       key={role.roleId}
                       value={role.roleName}
                     >
@@ -296,7 +296,7 @@ const UserDetails = () => {
                 </select>
               </div>
               <button
-                className="bg-btnColor hover:text-slate-300 px-4 py-2 rounded-md text-white font-semibold"
+                className="bg-btnColor hover:text-slate-300 px-4 py-2 rounded-md text-white "
                 onClick={handleUpdateRole}
               >
                 {updateRoleLoader ? "Loading..." : "Update Role"}
@@ -306,7 +306,7 @@ const UserDetails = () => {
             <hr className="py-2" />
             <div className="flex flex-col gap-4 py-4">
               <div className="flex items-center gap-2">
-                <label className="text-slate-700 font-semibold uppercase">
+                <label className="text-slate-600 text-sm font-semibold uppercase">
                   {" "}
                   Lock Account
                 </label>
@@ -321,7 +321,7 @@ const UserDetails = () => {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <label className="text-slate-700 font-semibold uppercase">
+                <label className="text-slate-600 text-sm font-semibold uppercase">
                   {" "}
                   Account Expiry
                 </label>
@@ -336,7 +336,7 @@ const UserDetails = () => {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <label className="text-slate-700 font-semibold uppercase">
+                <label className="text-slate-600 text-sm font-semibold uppercase">
                   {" "}
                   Account Enabled
                 </label>
@@ -351,7 +351,7 @@ const UserDetails = () => {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <label className="text-slate-700 font-semibold uppercase">
+                <label className="text-slate-600 text-sm font-semibold uppercase">
                   {" "}
                   Credentials Expired
                 </label>

@@ -15,35 +15,44 @@ export const auditLogcolumns = [
   {
     field: "actions",
     headerName: "Action",
-    width: 150,
+    width: 160,
+    headerAlign: "center",
+    disableColumnMenu: true,
+    align: "center",
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText ",
-    cellClassName: "text-black  border",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
     renderHeader: (params) => <span>Action</span>,
   },
 
   {
     field: "username",
     headerName: "UserName",
-    width: 150,
+    width: 180,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText",
-    cellClassName: "text-black font-semibold  border",
+    disableColumnMenu: true,
+    headerAlign: "center",
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
     renderHeader: (params) => <span>UserName</span>,
   },
 
   {
     field: "timestamp",
     headerName: "TimeStamp",
-    width: 150,
+    disableColumnMenu: true,
+    width: 220,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText",
-    cellClassName: "text-black  border  ",
+    headerAlign: "center",
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
     renderHeader: (params) => <span>TimeStamp</span>,
     renderCell: (params) => {
       console.log(params);
       return (
-        <div className=" flex  items-center  gap-1 ">
+        <div className=" flex  items-center justify-center  gap-1 ">
           <span>
             <MdDateRange className="text-slate-700 text-lg" />
           </span>
@@ -55,10 +64,13 @@ export const auditLogcolumns = [
   {
     field: "noteid",
     headerName: "NoteId",
-    width: 100,
+    disableColumnMenu: true,
+    width: 150,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText",
-    cellClassName: "text-black  border ",
+    headerAlign: "center",
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
     renderHeader: (params) => <span>NoteId</span>,
   },
   {
@@ -66,24 +78,29 @@ export const auditLogcolumns = [
     headerName: "Note Content",
     width: 240,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText",
-    cellClassName: "text-black border",
+    headerAlign: "center",
+    disableColumnMenu: true,
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
     renderHeader: (params) => <span>Note Content</span>,
     renderCell: (params) => {
       const contens = JSON.parse(params?.value)?.content;
 
       const response = auditLogsTruncateTexts(contens);
 
-      return <p className=" text-black   ">{response}</p>;
+      return <p className=" text-slate-700 text-center   ">{response}</p>;
     },
   },
   {
     field: "action",
     headerName: "Action",
-    width: 100,
+    width: 150,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText",
-    cellClassName: "text-black  ",
+    headerAlign: "center",
+    align: "center",
+    headerClassName: "text-black font-semibold ",
+    cellClassName: "text-slate-700 font-normal  ",
     sortable: false,
 
     renderHeader: (params) => <span>Action</span>,
@@ -92,7 +109,7 @@ export const auditLogcolumns = [
       return (
         <Link
           to={`/admin/audit-logs/${params.row.noteId}`}
-          className="h-full flex  items-center   "
+          className="h-full flex justify-center  items-center   "
         >
           <button className="bg-btnColor text-white px-4 flex justify-center items-center  h-9 rounded-md ">
             Views
@@ -129,7 +146,9 @@ const AdminAuditLogs = () => {
 
   const rows = auditLogs.map((item) => {
     //format the time bu using moment npm package
-    const formattedDate = moment(item.timestamp).format("D MMMM YYYY");
+    const formattedDate = moment(item.createdDate).format(
+      "MMMM DD, YYYY, hh:mm A"
+    );
 
     //set the data for each rows in the table according to the field name in columns
     //Example: username is the keyword in row it should matche with the field name in column so that the data will show on that column dynamically
@@ -189,6 +208,8 @@ const AdminAuditLogs = () => {
                 },
               }}
               pageSizeOptions={[6]}
+              disableRowSelectionOnClick
+              disableColumnResize
             />
           </div>
         </>

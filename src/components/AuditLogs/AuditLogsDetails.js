@@ -6,7 +6,7 @@ import { Blocks } from "react-loader-spinner";
 import Errors from "../Errors.js";
 import moment from "moment";
 import { MdDateRange } from "react-icons/md";
-import { auditLogsTruncateTexts } from "../../utils/truncateText.js";
+import { auditLogsTruncateTextsforNoteDetails } from "../../utils/truncateText.js";
 
 //Material ui data grid has used for the table
 //initialize the columns for the tables and (field) value is used to show data in a specific column dynamically
@@ -14,35 +14,44 @@ export const auditLogDetailcolumns = [
   {
     field: "actions",
     headerName: "Action",
-    width: 150,
+    width: 200,
+    headerAlign: "center",
+    align: "center",
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText ",
-    cellClassName: "text-black  border",
-    renderHeader: (params) => <span>Action</span>,
+
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
+    renderHeader: (params) => <span className="ps-10">Action</span>,
   },
 
   {
     field: "username",
     headerName: "UserName",
-    width: 150,
+    width: 200,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText",
-    cellClassName: "text-black font-semibold  border",
-    renderHeader: (params) => <span>UserName</span>,
+    headerAlign: "center",
+    disableColumnMenu: true,
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
+    renderHeader: (params) => <span className="ps-10">UserName</span>,
   },
 
   {
     field: "timestamp",
     headerName: "TimeStamp",
-    width: 150,
+    width: 220,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText",
-    cellClassName: "text-black  border  ",
-    renderHeader: (params) => <span>TimeStamp</span>,
+    headerAlign: "center",
+    disableColumnMenu: true,
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
+    renderHeader: (params) => <span className="ps-10">TimeStamp</span>,
     renderCell: (params) => {
       console.log(params);
       return (
-        <div className=" flex  items-center  gap-1 ">
+        <div className=" flex  items-center justify-center  gap-1 ">
           <span>
             <MdDateRange className="text-slate-700 text-lg" />
           </span>
@@ -54,15 +63,20 @@ export const auditLogDetailcolumns = [
   {
     field: "note",
     headerName: "Note Content",
-    width: 240,
+    width: 450,
+    disableColumnMenu: true,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText",
-    cellClassName: "text-black  border  ",
-    renderHeader: (params) => <span>Note Content</span>,
+    headerAlign: "center",
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
+    renderHeader: (params) => <span className="ps-10">Note Content</span>,
     renderCell: (params) => {
       const contens = JSON.parse(params?.value)?.content;
-      const response = auditLogsTruncateTexts(contens);
-      return <p className=" text-slate-700 ">{response}</p>;
+
+      const response = auditLogsTruncateTextsforNoteDetails(contens);
+
+      return <p className=" text-slate-700 text-center   ">{response}</p>;
     },
   },
 ];
@@ -95,7 +109,9 @@ const AuditLogsDetails = () => {
   }, [noteId]);
 
   const rows = auditLogs.map((item) => {
-    const formattedDate = moment(item.timestamp).format("D MMMM YYYY");
+    const formattedDate = moment(item.createdDate).format(
+      "MMMM DD, YYYY, hh:mm A"
+    );
 
     //set the data for each rows in the table according to the field name in columns
     //Example: username is the keyword in row it should matche with the field name in column so that the data will show on that column dynamically
@@ -160,7 +176,9 @@ const AuditLogsDetails = () => {
                       },
                     },
                   }}
+                  disableRowSelectionOnClick
                   pageSizeOptions={[6]}
+                  disableColumnResize
                 />
               </div>
             </>

@@ -9,6 +9,15 @@ export const auditLogsTruncateTexts = (text, length = 25) => {
 
   return plainText.substring(0, length) + ".....";
 };
+export const auditLogsTruncateTextsforNoteDetails = (text, length = 50) => {
+  const plainText = htmlToText(text, {
+    wordwrap: false, // Prevent automatic line wrapping
+  });
+
+  if (plainText.length <= length) return plainText;
+
+  return plainText.substring(0, length) + ".....";
+};
 
 export const truncateText = (text) => {
   if (text.length < 300) return text;

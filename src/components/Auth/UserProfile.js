@@ -183,7 +183,7 @@ const UserProfile = () => {
 
       const lastLoginSession = moment
         .unix(decodedToken.iat)
-        .format("dddd, D MMMM YYYY");
+        .format("dddd, D MMMM YYYY, h:mm A");
       //set the loggin session from the token
       setLoginSession(lastLoginSession);
     }
@@ -332,13 +332,18 @@ const UserProfile = () => {
                 </h3>
               </div>
               <div className="my-4 ">
-                <div className="space-y-2 px-4">
-                  <h1 className="text-slate-800  text-lg">
-                    UserName :
-                    <span className=" text-xl ">{currentUser?.username}</span>
+                <div className="space-y-2 px-4 mb-1">
+                  <h1 className="text-slate-600  text-lg">
+                    UserName :{" "}
+                    <span className=" text-xl text-slate-800 ">
+                      {currentUser?.username}
+                    </span>
                   </h1>
-                  <h1 className="text-slate-800  text-lg">
-                    Role : <span>{currentUser && currentUser["roles"][0]}</span>
+                  <h1 className="text-slate-600  text-lg">
+                    Role :{" "}
+                    <span className=" text-xl text-slate-800 ">
+                      {currentUser && currentUser["roles"][0]}
+                    </span>
                   </h1>
                 </div>
                 <div className="py-3">
@@ -354,7 +359,7 @@ const UserProfile = () => {
                         Update User Credentials
                       </h3>
                     </AccordionSummary>
-                    <AccordionDetails>
+                    <AccordionDetails className="shadow-md shadow-gray-300">
                       <form
                         className=" flex flex-col gap-3"
                         onSubmit={handleSubmit(handleUpdateCredential)}
@@ -416,7 +421,7 @@ const UserProfile = () => {
                           Account Setting
                         </h3>
                       </AccordionSummary>
-                      <AccordionDetails>
+                      <AccordionDetails className="shadow-md shadow-gray-300">
                         <div className="flex flex-col gap-4">
                           <div>
                             <h3 className="text-slate-700 font-customWeight text-sm ">
@@ -453,13 +458,11 @@ const UserProfile = () => {
                               <h3 className="text-slate-700 font-customWeight text-sm ">
                                 Credential Setting
                               </h3>
-                              <div className="shadow-sm shadow-slate-700 px-4 py-4 rounded-md">
+                              <div className="shadow-gray-300 shadow-md px-4 py-4 rounded-md">
                                 <p className="text-slate-700  text-sm ">
-                                  Your credential will expired
+                                  Your credential will expired{" "}
+                                  <span>{credentialExpireDate}</span>
                                 </p>
-                                <h3 className="font-customWeight">
-                                  {credentialExpireDate}
-                                </h3>
                               </div>
                             </div>
                           </>
@@ -482,13 +485,11 @@ const UserProfile = () => {
                     <h3 className="text-slate-800 text-lg font-semibold  mb-2 px-2">
                       Last Login Session
                     </h3>
-                    <div className="shadow-md shadow-gray-300 px-4 py-4 rounded-md">
-                      <p className="text-slate-800">
-                        Your Last LogIn Session when you are loggedin
+                    <div className="shadow-md shadow-gray-300 px-4 py-2 rounded-md">
+                      <p className="text-slate-700 text-sm">
+                        Your Last LogIn Session when you are loggedin <br />
+                        <span>{loginSession}</span>
                       </p>
-                      <h3 className="text-slate-800 font-semibold">
-                        {loginSession}
-                      </h3>
                     </div>
                   </div>
                 </div>

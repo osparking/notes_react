@@ -39,6 +39,8 @@ const AllNotes = () => {
     return <Errors message={error} />;
   }
 
+  console.log(notes);
+
   return (
     <div className="min-h-[calc(100vh-74px)] sm:py-10 sm:px-5 px-0 py-4">
       <div className="w-[92%] mx-auto ">

@@ -9,7 +9,7 @@ import moment from "moment";
 import { DataGrid } from "@mui/x-data-grid";
 import Buttons from "../../utils/Buttons";
 import Errors from "../Errors";
-import { auditLogsTruncateTexts } from "../../utils/truncateText";
+import { auditLogsTruncateTextsforNoteDetails } from "../../utils/truncateText";
 import toast from "react-hot-toast";
 import Modals from "../PopModal";
 import { MdDateRange } from "react-icons/md";
@@ -20,35 +20,42 @@ const columns = [
   {
     field: "action",
     headerName: "Action",
-    width: 200,
+    width: 250,
+    headerAlign: "center",
+    align: "center",
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText ",
-    cellClassName: "text-black  border",
-    sortable: false,
-    renderHeader: (params) => <span>Action</span>,
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
+    renderHeader: (params) => <span className="ps-10">Action</span>,
   },
   {
     field: "username",
     headerName: "UserName",
-    width: 200,
+    width: 250,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText ",
-    cellClassName: "text-black font-semibold   border",
-    renderHeader: (params) => <span>UserName</span>,
+    headerAlign: "center",
+    disableColumnMenu: true,
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
+    renderHeader: (params) => <span className="ps-10">UserName</span>,
   },
 
   {
     field: "timestamp",
     headerName: "TimeStamp",
-    width: 200,
+    width: 250,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText ",
-    cellClassName: "text-black  border",
-    renderHeader: (params) => <span>TimeStamp</span>,
+    disableColumnMenu: true,
+    headerAlign: "center",
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
+    renderHeader: (params) => <span className="ps-10">TimeStamp</span>,
     renderCell: (params) => {
       console.log(params);
       return (
-        <div className=" flex  items-center  gap-1 ">
+        <div className=" flex  items-center justify-center  gap-1 ">
           <span>
             <MdDateRange className="text-slate-700 text-lg" />
           </span>
@@ -60,20 +67,19 @@ const columns = [
   {
     field: "note",
     headerName: "Note Content",
-    width: 280,
+    width: 400,
+    disableColumnMenu: true,
     editable: false,
-    headerClassName: "text-slate-800 text-tablehHeaderText ",
-    cellClassName: "text-black  border",
+    headerAlign: "center",
+    align: "center",
+    headerClassName: "text-black font-semibold border",
+    cellClassName: "text-slate-700 font-normal  border",
     renderHeader: (params) => <span>Note Content</span>,
     renderCell: (params) => {
       const contens = JSON.parse(params.row.note).content;
 
-      return (
-        <p
-          className=" text-slate-700"
-          dangerouslySetInnerHTML={{ __html: auditLogsTruncateTexts(contens) }}
-        ></p>
-      );
+      const response = auditLogsTruncateTextsforNoteDetails(contens);
+      return <p className=" text-slate-700">{response}</p>;
     },
   },
 ];
@@ -155,7 +161,9 @@ const NoteDetails = () => {
 
   const rows = auditLogs.map((item) => {
     //moment npm package is used to format the date
-    const formattedDate = moment(item.timestamp).format("D MMMM YYYY");
+    const formattedDate = moment(item.createdDate).format(
+      "MMMM DD, YYYY, hh:mm A"
+    );
 
     //set the data for each rows in the table according to the field name in columns
     //Example: username is the keyword in row it should matche with the field name in column so that the data will show on that column dynamically
@@ -216,7 +224,7 @@ const NoteDetails = () => {
       >
         Go Back
       </Buttons>
-      <div className="shadow-md py-6 px-8 min-h-customHeight shadow-slate-800 rounded-md">
+      <div className=" py-6 px-8 min-h-customHeight shadow-lg shadow-gray-300 rounded-md">
         <>
           <>
             {!loading && (
@@ -315,7 +323,7 @@ const NoteDetails = () => {
               ) : (
                 <>
                   <p
-                    className=" text-slate-700 ql-editor"
+                    className=" text-slate-900 ql-editor"
                     dangerouslySetInnerHTML={{ __html: note?.parsedContent }}
                   ></p>
 
@@ -338,6 +346,8 @@ const NoteDetails = () => {
                             },
                           }}
                           pageSizeOptions={[6]}
+                          disableRowSelectionOnClick
+                          disableColumnResize
                         />
                       </div>
                     </div>
