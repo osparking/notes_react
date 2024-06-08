@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import api from "../../services/api";
 import { useForm } from "react-hook-form";
 import { Divider } from "@mui/material";
@@ -39,7 +39,7 @@ const ResetPassword = () => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      toast.success("Password reset successfully! You can now log in.");
+      toast.success("Password reset successful! You can now log in.");
       reset();
     } catch (error) {
       toast.error("Error resetting password. Please try again.");
@@ -83,13 +83,13 @@ const ResetPassword = () => {
           className="bg-customRed font-semibold text-white w-full py-2 hover:text-slate-400 transition-colors duration-100 rounded-sm my-3"
           type="text"
         >
-          {loading ? <span>Loading...</span> : "Send"}
+          {loading ? <span>Loading...</span> : "Submit"}
         </Buttons>
-        {/* <p className=" text-sm text-slate-700 ">
+        <p className=" text-sm text-slate-700 ">
           <Link className=" underline hover:text-black" to="/login">
             Back To Login
           </Link>
-        </p> */}
+        </p>
       </form>
     </div>
   );

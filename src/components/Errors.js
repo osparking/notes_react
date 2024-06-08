@@ -8,7 +8,7 @@ const Errors = ({ message }) => {
     navigate(-1);
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-96  p-4">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-74px)]  p-4">
       <div className="text-center">
         <div className="flex justify-center">
           <FiAlertCircle className="text-red-500 mb-4" size={48} />

@@ -48,11 +48,12 @@ const UserProfile = () => {
     register,
     handleSubmit,
     setValue,
+
     formState: { errors },
   } = useForm({
     defaultValues: {
       username: currentUser?.username,
-      email: "easin@gmail.com",
+      email: currentUser?.email,
       password: "",
     },
     mode: "onTouched",
@@ -67,7 +68,6 @@ const UserProfile = () => {
       try {
         const response = await api.get(`/auth/user/2fa-status`);
         setIs2faEnabled(response.data.is2faEnabled);
-        console.log("sample = ", response.data.is2faEnabled);
       } catch (error) {
         setPageError(error?.response?.data?.message);
         toast.error("Error fetching 2FA status");
@@ -109,7 +109,8 @@ const UserProfile = () => {
 
   //verify the 2fa
   const verify2FA = async () => {
-    if (!code) return toast.error("Invalid Code");
+    if (!code || code.trim().length === 0)
+      return toast.error("Please Enter The Code To Verify");
 
     settwofaCodeLoader(true);
 
@@ -122,7 +123,7 @@ const UserProfile = () => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      toast.success("2FA verified successfully");
+      toast.success("2FA verified successful");
 
       setIs2faEnabled(true);
       setStep(1);
@@ -145,14 +146,14 @@ const UserProfile = () => {
       formData.append("token", token);
       formData.append("newUsername", newUsername);
       formData.append("newPassword", newPassword);
-      const { data } = await api.post("/auth/update-credentials", formData, {
+      await api.post("/auth/update-credentials", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      console.log(data);
+
       //fetchUser();
-      toast.success("Update Credential successfully");
+      toast.success("Update Credential successful");
     } catch (error) {
       toast.error("Update Credential failed");
     } finally {
@@ -164,7 +165,8 @@ const UserProfile = () => {
   useEffect(() => {
     if (currentUser?.id) {
       setValue("username", currentUser.username);
-      setAccountExpired(!currentUser.credentialsNonExpired);
+      setValue("email", currentUser.email);
+      setAccountExpired(!currentUser.accountNonExpired);
       setAccountLock(!currentUser.accountNonLocked);
       setAccountEnabled(currentUser.enabled);
       setCredentialExpired(!currentUser.credentialsNonExpired);
@@ -175,7 +177,7 @@ const UserProfile = () => {
       ).format("D MMMM YYYY");
       setCredentialExpireDate(expiredFormatDate);
     }
-  }, [currentUser]);
+  }, [currentUser, setValue]);
 
   useEffect(() => {
     if (token) {
@@ -333,15 +335,15 @@ const UserProfile = () => {
               </div>
               <div className="my-4 ">
                 <div className="space-y-2 px-4 mb-1">
-                  <h1 className="text-slate-600  text-lg">
+                  <h1 className="font-semibold text-md text-slate-800">
                     UserName :{" "}
-                    <span className=" text-xl text-slate-800 ">
+                    <span className=" text-slate-700  font-normal">
                       {currentUser?.username}
                     </span>
                   </h1>
-                  <h1 className="text-slate-600  text-lg">
+                  <h1 className="font-semibold text-md text-slate-800">
                     Role :{" "}
-                    <span className=" text-xl text-slate-800 ">
+                    <span className=" text-slate-700  font-normal">
                       {currentUser && currentUser["roles"][0]}
                     </span>
                   </h1>

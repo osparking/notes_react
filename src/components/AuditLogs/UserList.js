@@ -38,7 +38,6 @@ export const userListsColumns = [
     disableColumnMenu: true,
     renderHeader: (params) => <span>Email</span>,
     renderCell: (params) => {
-      console.log(params);
       return (
         <div className=" flex  items-center justify-center  gap-1 ">
           <span>
@@ -61,7 +60,6 @@ export const userListsColumns = [
     disableColumnMenu: true,
     renderHeader: (params) => <span>Created At</span>,
     renderCell: (params) => {
-      console.log(params);
       return (
         <div className=" flex justify-center  items-center  gap-1 ">
           <span>
@@ -89,8 +87,8 @@ export const userListsColumns = [
     headerName: "Action",
     headerAlign: "center",
     editable: false,
-    headerClassName: "text-black font-semibold text-cente border  ",
-    cellClassName: "text-slate-700 font-normal  border  ",
+    headerClassName: "text-black font-semibold text-cente",
+    cellClassName: "text-slate-700 font-normal",
     sortable: false,
     width: 200,
     renderHeader: (params) => <span>Action</span>,

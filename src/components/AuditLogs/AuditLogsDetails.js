@@ -1,85 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import { DataGrid } from "@mui/x-data-grid";
 import { Blocks } from "react-loader-spinner";
 import Errors from "../Errors.js";
 import moment from "moment";
-import { MdDateRange } from "react-icons/md";
-import { auditLogsTruncateTextsforNoteDetails } from "../../utils/truncateText.js";
 
-//Material ui data grid has used for the table
-//initialize the columns for the tables and (field) value is used to show data in a specific column dynamically
-export const auditLogDetailcolumns = [
-  {
-    field: "actions",
-    headerName: "Action",
-    width: 200,
-    headerAlign: "center",
-    align: "center",
-    editable: false,
+//importing the the columns from the auditlogs
+import { auditLogscolumn } from "../../utils/tableColumn.js";
 
-    headerClassName: "text-black font-semibold border",
-    cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span className="ps-10">Action</span>,
-  },
-
-  {
-    field: "username",
-    headerName: "UserName",
-    width: 200,
-    editable: false,
-    headerAlign: "center",
-    disableColumnMenu: true,
-    align: "center",
-    headerClassName: "text-black font-semibold border",
-    cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span className="ps-10">UserName</span>,
-  },
-
-  {
-    field: "timestamp",
-    headerName: "TimeStamp",
-    width: 220,
-    editable: false,
-    headerAlign: "center",
-    disableColumnMenu: true,
-    align: "center",
-    headerClassName: "text-black font-semibold border",
-    cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span className="ps-10">TimeStamp</span>,
-    renderCell: (params) => {
-      console.log(params);
-      return (
-        <div className=" flex  items-center justify-center  gap-1 ">
-          <span>
-            <MdDateRange className="text-slate-700 text-lg" />
-          </span>
-          <span>{params?.row?.timestamp}</span>
-        </div>
-      );
-    },
-  },
-  {
-    field: "note",
-    headerName: "Note Content",
-    width: 450,
-    disableColumnMenu: true,
-    editable: false,
-    headerAlign: "center",
-    align: "center",
-    headerClassName: "text-black font-semibold border",
-    cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span className="ps-10">Note Content</span>,
-    renderCell: (params) => {
-      const contens = JSON.parse(params?.value)?.content;
-
-      const response = auditLogsTruncateTextsforNoteDetails(contens);
-
-      return <p className=" text-slate-700 text-center   ">{response}</p>;
-    },
-  },
-];
 const AuditLogsDetails = () => {
   //access the notid
   const { noteId } = useParams();
@@ -87,11 +16,10 @@ const AuditLogsDetails = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchSingleAuditLogs = async () => {
+  const fetchSingleAuditLogs = useCallback(async () => {
     setLoading(true);
     try {
       const { data } = await api.get(`/audit/note/${noteId}`);
-      console.log(data);
 
       setAuditLogs(data);
     } catch (err) {
@@ -100,16 +28,16 @@ const AuditLogsDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [noteId]);
 
   useEffect(() => {
     if (noteId) {
       fetchSingleAuditLogs();
     }
-  }, [noteId]);
+  }, [noteId, fetchSingleAuditLogs]);
 
   const rows = auditLogs.map((item) => {
-    const formattedDate = moment(item.createdDate).format(
+    const formattedDate = moment(item.timestamp).format(
       "MMMM DD, YYYY, hh:mm A"
     );
 
@@ -122,6 +50,7 @@ const AuditLogsDetails = () => {
       actions: item.action,
       username: item.username,
       timestamp: formattedDate,
+      noteid: item.noteId,
       note: item.noteContent,
     };
   });
@@ -168,7 +97,7 @@ const AuditLogsDetails = () => {
                 <DataGrid
                   className="w-fit mx-auto px-0"
                   rows={rows}
-                  columns={auditLogDetailcolumns}
+                  columns={auditLogscolumn}
                   initialState={{
                     pagination: {
                       paginationModel: {

@@ -50,7 +50,6 @@ export const auditLogcolumns = [
     cellClassName: "text-slate-700 font-normal  border",
     renderHeader: (params) => <span>TimeStamp</span>,
     renderCell: (params) => {
-      console.log(params);
       return (
         <div className=" flex  items-center justify-center  gap-1 ">
           <span>
@@ -76,7 +75,7 @@ export const auditLogcolumns = [
   {
     field: "note",
     headerName: "Note Content",
-    width: 240,
+    width: 220,
     editable: false,
     headerAlign: "center",
     disableColumnMenu: true,
@@ -105,7 +104,6 @@ export const auditLogcolumns = [
 
     renderHeader: (params) => <span>Action</span>,
     renderCell: (params) => {
-      console.log(params);
       return (
         <Link
           to={`/admin/audit-logs/${params.row.noteId}`}
@@ -124,8 +122,6 @@ const AdminAuditLogs = () => {
   const [auditLogs, setAuditLogs] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  console.log(auditLogs);
 
   const fetchAuditLogs = async () => {
     setLoading(true);
@@ -146,7 +142,8 @@ const AdminAuditLogs = () => {
 
   const rows = auditLogs.map((item) => {
     //format the time bu using moment npm package
-    const formattedDate = moment(item.createdDate).format(
+
+    const formattedDate = moment(item.timestamp).format(
       "MMMM DD, YYYY, hh:mm A"
     );
 

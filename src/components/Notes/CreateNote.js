@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 const CreateNote = () => {
   const navigate = useNavigate();
-  //set the contect of the reactquill
+  //set the content of the reactquill
   const [editorContent, setEditorContent] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -64,13 +64,14 @@ const CreateNote = () => {
                 { indent: "-1" },
                 { indent: "+1" },
               ],
-              ["clean"], // Moved "clean" into its own array
+              ["clean"],
             ],
           }}
         />
       </div>
 
       <Buttons
+        disabled={loading}
         onClickhandler={handleSubmit}
         className="bg-customRed  text-white px-4 py-2 hover:text-slate-300 rounded-sm"
       >

@@ -41,7 +41,6 @@ const UserDetails = () => {
       setUser(response.data);
 
       setSelectedRole(response.data.role?.roleName || "");
-      console.log(response.data.role);
     } catch (err) {
       setError(err?.response?.data?.message);
       console.error("Error fetching user details", err);
@@ -56,13 +55,12 @@ const UserDetails = () => {
       setValue("username", user.userName);
       setValue("email", user.email);
     }
-  }, [user]);
+  }, [user, setValue]);
 
   const fetchRoles = useCallback(async () => {
     try {
       const response = await api.get("/admin/roles");
       setRoles(response.data);
-      console.log(response.data);
     } catch (err) {
       setError(err?.response?.data?.message);
       console.error("Error fetching roles", err);
@@ -145,6 +143,7 @@ const UserDetails = () => {
     try {
       const formData = new URLSearchParams();
       formData.append("userId", userId);
+
       formData.append(name, checked);
 
       await api.put(updateUrl, formData, {
@@ -363,7 +362,7 @@ const UserDetails = () => {
                   onChange={(e) =>
                     handleCheckboxChange(
                       e,
-                      `/admin/update-credentials-expiry-status?userId=${userId}&expire=${true}`
+                      `/admin/update-credentials-expiry-status?userId=${userId}&expire=${user?.credentialsNonExpired}`
                     )
                   }
                 />

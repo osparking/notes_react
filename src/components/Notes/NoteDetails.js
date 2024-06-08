@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
 import "react-quill/dist/quill.snow.css";
@@ -9,80 +9,10 @@ import moment from "moment";
 import { DataGrid } from "@mui/x-data-grid";
 import Buttons from "../../utils/Buttons";
 import Errors from "../Errors";
-import { auditLogsTruncateTextsforNoteDetails } from "../../utils/truncateText";
 import toast from "react-hot-toast";
 import Modals from "../PopModal";
-import { MdDateRange } from "react-icons/md";
-
-//Material ui data grid has used for the table
-//initialize the columns for the tables and (field) value is used to show data in a specific column dynamically
-const columns = [
-  {
-    field: "action",
-    headerName: "Action",
-    width: 250,
-    headerAlign: "center",
-    align: "center",
-    editable: false,
-    headerClassName: "text-black font-semibold border",
-    cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span className="ps-10">Action</span>,
-  },
-  {
-    field: "username",
-    headerName: "UserName",
-    width: 250,
-    editable: false,
-    headerAlign: "center",
-    disableColumnMenu: true,
-    align: "center",
-    headerClassName: "text-black font-semibold border",
-    cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span className="ps-10">UserName</span>,
-  },
-
-  {
-    field: "timestamp",
-    headerName: "TimeStamp",
-    width: 250,
-    editable: false,
-    disableColumnMenu: true,
-    headerAlign: "center",
-    align: "center",
-    headerClassName: "text-black font-semibold border",
-    cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span className="ps-10">TimeStamp</span>,
-    renderCell: (params) => {
-      console.log(params);
-      return (
-        <div className=" flex  items-center justify-center  gap-1 ">
-          <span>
-            <MdDateRange className="text-slate-700 text-lg" />
-          </span>
-          <span>{params?.row?.timestamp}</span>
-        </div>
-      );
-    },
-  },
-  {
-    field: "note",
-    headerName: "Note Content",
-    width: 400,
-    disableColumnMenu: true,
-    editable: false,
-    headerAlign: "center",
-    align: "center",
-    headerClassName: "text-black font-semibold border",
-    cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span>Note Content</span>,
-    renderCell: (params) => {
-      const contens = JSON.parse(params.row.note).content;
-
-      const response = auditLogsTruncateTextsforNoteDetails(contens);
-      return <p className=" text-slate-700">{response}</p>;
-    },
-  },
-];
+//importing the the columns from the auditlogs
+import { auditLogscolumn } from "../../utils/tableColumn";
 
 const NoteDetails = () => {
   const { id } = useParams();
@@ -90,6 +20,7 @@ const NoteDetails = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const [note, setNote] = useState(null);
+
   const [editorContent, setEditorContent] = useState(note?.parsedContent);
   const [auditLogs, setAuditLogs] = useState([]);
   const [error, setError] = useState(null);
@@ -99,9 +30,7 @@ const NoteDetails = () => {
   const [editEnable, setEditEnable] = useState(false);
   const navigate = useNavigate();
 
-  console.log(auditLogs);
-
-  const fetchNoteDetails = async () => {
+  const fetchNoteDetails = useCallback(async () => {
     setLoading(true);
     try {
       const response = await api.get("/notes");
@@ -118,7 +47,7 @@ const NoteDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
   const checkAdminRole = async () => {
     try {
@@ -133,7 +62,7 @@ const NoteDetails = () => {
     }
   };
 
-  const fetchAuditLogs = async () => {
+  const fetchAuditLogs = useCallback(async () => {
     try {
       const response = await api.get(`/audit/note/${id}`);
       setAuditLogs(response.data);
@@ -141,7 +70,7 @@ const NoteDetails = () => {
       console.error("Error fetching audit logs", err);
       setError("Error fetching audit logs", err);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     if (id) {
@@ -151,7 +80,7 @@ const NoteDetails = () => {
         fetchAuditLogs();
       }
     }
-  }, [id, isAdmin]);
+  }, [id, isAdmin, fetchAuditLogs, fetchNoteDetails]);
 
   useEffect(() => {
     if (note?.parsedContent) {
@@ -161,7 +90,8 @@ const NoteDetails = () => {
 
   const rows = auditLogs.map((item) => {
     //moment npm package is used to format the date
-    const formattedDate = moment(item.createdDate).format(
+
+    const formattedDate = moment(item.timestamp).format(
       "MMMM DD, YYYY, hh:mm A"
     );
 
@@ -171,9 +101,10 @@ const NoteDetails = () => {
     return {
       id: item.id,
       noteId: item.noteId,
-      action: item.action,
+      actions: item.action,
       username: item.username,
       timestamp: formattedDate,
+      noteid: item.noteId,
       note: item.noteContent,
     };
   });
@@ -337,7 +268,7 @@ const NoteDetails = () => {
                         <DataGrid
                           className="w-fit mx-auto "
                           rows={rows}
-                          columns={columns}
+                          columns={auditLogscolumn}
                           initialState={{
                             pagination: {
                               paginationModel: {

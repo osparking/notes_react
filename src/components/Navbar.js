@@ -18,6 +18,7 @@ const Navbar = () => {
     localStorage.removeItem("JWT_TOKEN"); // Updated to remove token from localStorage
     localStorage.removeItem("USER"); // Remove user details as well
     localStorage.removeItem("CSRF_TOKEN");
+    localStorage.removeItem("IS_ADMIN");
     setToken(null);
     setCurrentUser(null);
     setIsAdmin(false);

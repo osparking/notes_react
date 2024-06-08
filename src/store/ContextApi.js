@@ -10,6 +10,10 @@ export const ContextProvider = ({ children }) => {
   const getToken = localStorage.getItem("JWT_TOKEN")
     ? JSON.stringify(localStorage.getItem("JWT_TOKEN"))
     : null;
+  //find is the user status from the localstorage
+  const isADmin = localStorage.getItem("IS_ADMIN")
+    ? JSON.stringify(localStorage.getItem("IS_ADMIN"))
+    : false;
 
   //store the token
   const [token, setToken] = useState(getToken);
@@ -19,7 +23,7 @@ export const ContextProvider = ({ children }) => {
   //handle sidebar opening and closing in the admin panel
   const [openSidebar, setOpenSidebar] = useState(true);
   //check the loggedin user is admin or not
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(isADmin);
 
   const fetchUser = async () => {
     const user = JSON.parse(localStorage.getItem("USER"));
@@ -28,9 +32,13 @@ export const ContextProvider = ({ children }) => {
       try {
         const { data } = await api.get(`/auth/user`);
         const roles = data.roles;
-        console.log(roles);
+
         if (roles.includes("ROLE_ADMIN")) {
+          localStorage.setItem("IS_ADMIN", JSON.stringify(true));
           setIsAdmin(true);
+        } else {
+          localStorage.removeItem("IS_ADMIN");
+          setIsAdmin(false);
         }
         setCurrentUser(data);
       } catch (error) {

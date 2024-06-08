@@ -13,12 +13,13 @@ import { useEffect } from "react";
 
 const Signup = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
-  const [role, setRole] = useState("ROLE_USER");
+  const [role, setRole] = useState();
   const [loading, setLoading] = useState(false);
   // Access the token and setToken function using the useMyContext hook from the ContextProvider
   const { token } = useMyContext();
   const navigate = useNavigate();
 
+  //react hook form initialization
   const {
     register,
     handleSubmit,
@@ -34,7 +35,9 @@ const Signup = () => {
     mode: "onTouched",
   });
 
-  //react hook form initialization
+  useEffect(() => {
+    setRole("ROLE_USER");
+  }, []);
 
   const onSubmitHandler = async (data) => {
     const { username, email, password } = data;
