@@ -37,3 +37,4 @@ service-worker.js
 
 # Temporary files
 .tmp/
+node_modules
