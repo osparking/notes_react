@@ -3,7 +3,6 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { LiaBlogSolid } from "react-icons/lia";
 import { FaUser } from "react-icons/fa";
-import { MdGroups } from "react-icons/md";
 import Tooltip from "@mui/material/Tooltip";
 import { useMyContext } from "../../store/ContextApi";
 
@@ -88,25 +87,7 @@ const Sidebar = () => {
             </span>
           </Link>
         </Tooltip>
-        <Tooltip title={`${openSidebar ? "" : "All Groups"}`}>
-          <Link
-            to="/admin/groups"
-            className={`flex text-white items-center gap-2 ${
-              pathName === "/admin/groups" ? "bg-btnColor" : "bg-transparent"
-            }   min-h-10 max-h-10 py-2 px-2 rounded-md hover:bg-btnColor`}
-          >
-            <span>
-              <MdGroups className="text-xl" />
-            </span>
-            <span
-              className={` ${
-                !openSidebar ? "opacity-0" : ""
-              } transition-all font-semibold duration-150  ease-in-out`}
-            >
-              All Groups
-            </span>
-          </Link>
-        </Tooltip>
+        
       </div>
     </div>
   );

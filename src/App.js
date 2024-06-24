@@ -7,9 +7,6 @@ import NoteDetails from "./components/Notes/NoteDetails";
 import CreateNote from "./components/Notes/CreateNote";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
-import GroupList from "./components/Groups/GroupList";
-import GroupDetails from "./components/Groups/GroupDetails";
-import CreateGroup from "./components/Groups/CreateGroup";
 import LandingPage from "./components/LandingPage";
 import AccessDenied from "./components/Auth/AccessDenied";
 import Admin from "./components/AuditLogs/Admin";
@@ -61,31 +58,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/groups"
-          element={
-            <ProtectedRoute>
-              <GroupList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/groups/create"
-          element={
-            <ProtectedRoute>
-              <CreateGroup />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/groups/:groupId"
-          element={
-            <ProtectedRoute>
-              <GroupDetails />
-            </ProtectedRoute>
-          }
-        />
-
+        
         <Route path="/access-denied" element={<AccessDenied />} />
         <Route
           path="/admin/*"
