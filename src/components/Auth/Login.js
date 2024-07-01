@@ -41,7 +41,7 @@ const Login = () => {
   const handleSuccessfulLogin = (token, decodedToken) => {
     const user = {
       username: decodedToken.sub,
-      roles: decodedToken.roles.split(","),
+      roles: decodedToken.roles ? decodedToken.roles.split(",") : [],
     };
     localStorage.setItem("JWT_TOKEN", token);
     localStorage.setItem("USER", JSON.stringify(user));
