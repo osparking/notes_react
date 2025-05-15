@@ -75,8 +75,8 @@ export const ContextProvider = ({ children }) => {
   );
 };
 
-// By using useMyContext(custom hook), 
-// we can get our context provier and access data
+// 맞춤 후크인 useMyContext를 사용하여, 
+// 최근접 context provier value 의 필드에 접근 가능
 export const useMyContext = () => {
   const context = useContext(ContextApi);
 
