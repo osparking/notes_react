@@ -10,19 +10,20 @@ export const ContextProvider = ({ children }) => {
   const getToken = localStorage.getItem("JWT_TOKEN")
     ? JSON.stringify(localStorage.getItem("JWT_TOKEN"))
     : null;
-  //find is the user status from the localstorage
+
+  //store state 에 token 저장
+  const [token, setToken] = useState(getToken);
+
+  //find user status from the localstorage
   const isADmin = localStorage.getItem("IS_ADMIN")
     ? JSON.stringify(localStorage.getItem("IS_ADMIN"))
     : false;
-
-  //store the token
-  const [token, setToken] = useState(getToken);
 
   //store the current loggedin user
   const [currentUser, setCurrentUser] = useState(null);
   //handle sidebar opening and closing in the admin panel
   const [openSidebar, setOpenSidebar] = useState(true);
-  //check the loggedin user is admin or not
+  //isAdmin state 에 admin 여부 저장
   const [isAdmin, setIsAdmin] = useState(isADmin);
 
   const fetchUser = async () => {
@@ -55,7 +56,7 @@ export const ContextProvider = ({ children }) => {
     }
   }, [token]);
 
-  //through context provider you are sending all the datas so that we access at anywhere in your application
+  //ContextProvider 성분만 수입하면 응용의 어디서든 네 쌍의 <상태,세터> 에 접근 가능
   return (
     <ContextApi.Provider
       value={{
@@ -74,7 +75,8 @@ export const ContextProvider = ({ children }) => {
   );
 };
 
-//by using this (useMyContext) custom hook we can reach our context provier and access the datas across our components
+// By using useMyContext(custom hook), 
+// we can get our context provier and access data
 export const useMyContext = () => {
   const context = useContext(ContextApi);
 
