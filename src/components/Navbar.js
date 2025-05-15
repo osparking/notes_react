@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useMyContext } from "../store/ContextApi";
 
 const Navbar = () => {
