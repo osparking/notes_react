@@ -75,7 +75,7 @@ const CreateNote = () => {
         onClickhandler={handleSubmit}
         className="bg-customRed  text-white px-4 py-2 hover:text-slate-300 rounded-sm"
       >
-        {loading ? <span>Loading...</span> : " Create Note"}
+        {loading ? <span>Loading...</span> : "Create Note"}
       </Buttons>
     </div>
   );

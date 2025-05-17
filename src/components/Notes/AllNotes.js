@@ -11,18 +11,21 @@ const AllNotes = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const fetchNotes = async () => {
+  async function fetchNotes () {
     setLoading(true);
     try {
       const response = await api.get("/notes");
+      console.log("노트: ", response.data);      
 
       const parsedNotes = response.data.map((note) => ({
         ...note,
         parsedContent: JSON.parse(note.content).content, // Assuming each note's content is JSON-formatted.
       }));
+      console.log("parsedNotes: ", parsedNotes);
+      
       setNotes(parsedNotes);
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error); // .response.data.message);
       console.error("Error fetching notes", error);
     } finally {
       setLoading(false);
