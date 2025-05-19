@@ -22,7 +22,7 @@ export const userListsColumns = [
     editable: false,
     headerClassName: "text-black font-semibold border",
     cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span className="text-center">UserName</span>,
+    renderHeader: (params) => <span className="text-center">User Name</span>,    
   },
 
   {
@@ -140,7 +140,7 @@ const UserList = () => {
     //Example: username is the keyword in row it should matche with the field name in column so that the data will show on that column dynamically
     return {
       id: item.userId,
-      username: item.userName,
+      username: item.username,
       email: item.email,
       created: formattedDate,
       status: item.enabled ? "Active" : "Inactive",
