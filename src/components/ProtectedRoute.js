@@ -16,6 +16,7 @@ const ProtectedRoute = ({ children, adminPage }) => {
     return <Navigate to="/access-denied" />;
   }
 
+  // !adminPage || adminPage && isAdmin
   return children;
 };
 
