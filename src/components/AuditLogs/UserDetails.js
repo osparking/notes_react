@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { Blocks } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
-import { useForm } from "react-hook-form";
-import InputField from "../InputField/InputField";
-import { Blocks } from "react-loader-spinner";
 import Buttons from "../../utils/Buttons";
-import toast from "react-hot-toast";
 import Errors from "../Errors";
+import InputField from "../InputField/InputField";
 
 const UserDetails = () => {
   const {
@@ -72,7 +72,8 @@ const UserDetails = () => {
   useEffect(() => {
     fetchUserDetails();
     fetchRoles();
-  }, [fetchUserDetails, fetchRoles]);
+  }, []);
+  // }, [fetchUserDetails, fetchRoles]);
 
   //set the selected role
   const handleRoleChange = (e) => {
