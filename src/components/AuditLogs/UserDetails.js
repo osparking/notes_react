@@ -38,6 +38,8 @@ const UserDetails = () => {
     setLoading(true);
     try {
       const response = await api.get(`/admin/user/${userId}`);
+      console.log("유저 상세: ", response.data);
+      
       setUser(response.data);
 
       setSelectedRole(response.data.role?.roleName || "");
@@ -52,7 +54,7 @@ const UserDetails = () => {
   useEffect(() => {
     //if user exist set the value by using the setValue function provided my react-hook-form
     if (user && Object.keys(user).length > 0) {
-      setValue("username", user.userName);
+      setValue("username", user.username);
       setValue("email", user.email);
     }
   }, [user, setValue]);
