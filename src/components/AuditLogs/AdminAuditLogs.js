@@ -22,7 +22,7 @@ export const auditLogcolumns = [
     editable: false,
     headerClassName: "text-black font-semibold border",
     cellClassName: "text-slate-700 font-normal  border",
-    renderHeader: (params) => <span>Action</span>,
+    renderHeader: (params) => <span>노트 작업</span>,
   },
 
   {
