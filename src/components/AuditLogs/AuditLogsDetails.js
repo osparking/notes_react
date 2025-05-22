@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import api from "../../services/api";
 import { DataGrid } from "@mui/x-data-grid";
-import { Blocks } from "react-loader-spinner";
-import Errors from "../Errors.js";
 import moment from "moment";
+import { useCallback, useEffect, useState } from "react";
+import { Blocks } from "react-loader-spinner";
+import { Link, useParams } from "react-router-dom";
+import api from "../../services/api";
+import Errors from "../Errors.js";
 
 //importing the the columns from the auditlogs
+import { Tooltip } from "@mui/material";
 import { auditLogscolumn } from "../../utils/tableColumn.js";
 
 const AuditLogsDetails = () => {
@@ -67,6 +68,20 @@ const AuditLogsDetails = () => {
             Audit Log for Note ID - {noteId}
           </h1>
         )}
+      </div>
+      <div className="center mb-3">
+        <Tooltip title={"목록으로 돌아가기"}>
+          <Link
+            to="/admin/audit-logs"
+            className={`flex text-white items-center gap-2 bg-btnColor 
+              min-h-10 max-h-10 py-2 px-2 rounded-md hover:bg-btnColor`}
+          >
+            <span className="transition-all duration-150 
+             ease-in-out small-text">
+              목록으로 돌아가기
+            </span>
+          </Link>
+        </Tooltip>        
       </div>
       {loading ? (
         <>
