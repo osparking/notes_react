@@ -37,7 +37,7 @@ const ForgotPassword = () => {
 
       const formData = new URLSearchParams();
       formData.append("email", email);
-      await api.post("/auth/public/forgot-password", formData, {
+      await api.post("/auth/public/forgotten-pwd", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
