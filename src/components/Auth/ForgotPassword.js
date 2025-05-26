@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import api from "../../services/api";
-import { useForm } from "react-hook-form";
-import InputField from "../InputField/InputField";
-import Buttons from "../../utils/Buttons";
 import { Divider } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import api from "../../services/api";
 import { useMyContext } from "../../store/ContextApi";
+import Buttons from "../../utils/Buttons";
+import InputField from "../InputField/InputField";
 
 const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
@@ -47,7 +46,7 @@ const ForgotPassword = () => {
       reset();
 
       //showing success message
-      toast.success("Password reset email sent! Check your inbox.");
+      toast.success("패스워드 리셋 이메일 전송됨. 이메일을 확인할 것.");
     } catch (error) {
       toast.error("Error sending password reset email. Please try again.");
     } finally {
@@ -55,7 +54,7 @@ const ForgotPassword = () => {
     }
   };
 
-  //if there is token  exist navigate  the user to the home page if he tried to access the login page
+  // 토큰이 존재하면, 유저를 홈으로 보낸다.
   useEffect(() => {
     if (token) navigate("/");
   }, [token, navigate]);

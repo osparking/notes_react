@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { Divider } from "@mui/material";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link, useSearchParams } from "react-router-dom";
 import api from "../../services/api";
-import { useForm } from "react-hook-form";
-import { Divider } from "@mui/material";
-import InputField from "../InputField/InputField";
-import toast from "react-hot-toast";
 import Buttons from "../../utils/Buttons";
+import InputField from "../InputField/InputField";
 
 const ResetPassword = () => {
   const {
@@ -71,7 +71,7 @@ const ResetPassword = () => {
             id="password"
             type="password"
             message="*Password is required"
-            placeholder="enter your Password"
+            placeholder="Enter your Password"
             register={register}
             errors={errors}
             min={6}
