@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
-import { useEffect } from "react";
-import api from "../services/api";
+import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import api from "../services/api";
 
 const ContextApi = createContext();
 
@@ -33,7 +32,8 @@ export const ContextProvider = ({ children }) => {
       try {
         const { data } = await api.get(`/auth/user`);
         const roles = data.roles;
-
+        data.loginMethod = user.loginMethod;
+        
         if (roles.includes("ROLE_ADMIN")) {
           localStorage.setItem("IS_ADMIN", JSON.stringify(true));
           setIsAdmin(true);
