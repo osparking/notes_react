@@ -11,7 +11,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // Access the states by using the useMyContext hook from the ContextProvider
-  const { token, setToken, setCurrentUser, isAdmin, setIsAdmin } =
+  const { token, setToken, currentUser, setCurrentUser, isAdmin, setIsAdmin } =
     useMyContext();
 
   const handleLogout = () => {
@@ -96,7 +96,7 @@ const Navbar = () => {
               {isAdmin && (
                 <Link to="/admin/users">
                   <li
-                    className={` py-2 cursor-pointer uppercase   hover:text-slate-300 ${
+                    className={` py-2 cursor-pointer uppercase hover:text-slate-300 ${
                       pathName.startsWith("/admin") ? "font-semibold " : ""
                     }`}
                   >
@@ -104,11 +104,18 @@ const Navbar = () => {
                   </li>
                 </Link>
               )}
+              {!isAdmin && (
+                <li className={'py-2 small-font center'}>
+                  {currentUser && (currentUser.loginMethod === "유저네임"
+                    ? `[ ${currentUser.username} ]`
+                    : currentUser.loginMethod)}
+                </li>
+              )}
               <button
                 onClick={handleLogout}
                 className="w-24 text-center bg-customRed font-semibold px-4 py-2 rounded-sm cursor-pointer hover:text-slate-300"
               >
-                LogOut
+                로그아웃
               </button>
             </>
           ) : (
