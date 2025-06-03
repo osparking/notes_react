@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import Divider from "@mui/material/Divider";
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
-import { jwtDecode } from "jwt-decode";
-import InputField from "../InputField/InputField";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
-import Divider from "@mui/material/Divider";
-import Buttons from "../../utils/Buttons";
-import toast from "react-hot-toast";
 import { useMyContext } from "../../store/ContextApi";
-import { useEffect } from "react";
+import Buttons from "../../utils/Buttons";
+import InputField from "../InputField/InputField";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -41,6 +40,8 @@ const Login = () => {
   const handleSuccessfulLogin = (token, decodedToken) => {
     const user = {
       username: decodedToken.sub,
+      signUpMethod: decodedToken.signUpMethod,
+      loginMethod: decodedToken.loginMethod,
       roles: decodedToken.roles ? decodedToken.roles.split(",") : [],
     };
     localStorage.setItem("JWT_TOKEN", token);
@@ -79,7 +80,7 @@ const Login = () => {
       }
     } catch (error) {
       if (error) {
-        toast.error("Invalid credentials");
+        toast.error(error.response.data.message);
       }
     } finally {
       setLoading(false);
