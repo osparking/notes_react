@@ -343,6 +343,18 @@ const UserProfile = () => {
                     </span>
                   </h1>
                   <h1 className="font-semibold text-md text-slate-800">
+                    등록 형태 :{" "}
+                    <span className=" text-slate-700  font-normal">
+                      {currentUser?.signUpMethod}
+                    </span>
+                  </h1>
+                  <h1 className="font-semibold text-md text-slate-800">
+                    로그인 방법 :{" "}
+                    <span className=" text-slate-700  font-normal">
+                      {currentUser?.loginMethod}
+                    </span>
+                  </h1>
+                  <h1 className="font-semibold text-md text-slate-800">
                     Role :{" "}
                     <span className=" text-slate-700  font-normal">
                       {currentUser && currentUser["roles"][0]}
