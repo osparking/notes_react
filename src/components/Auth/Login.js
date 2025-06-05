@@ -50,6 +50,8 @@ const Login = () => {
     //store the token on the context state  so that it can be shared any where in our application by context provider
     setToken(token);
 
+    //showing success message with react hot toast
+    toast.success("Login Successful");
     navigate("/notes");
   };
 
@@ -68,8 +70,6 @@ const Login = () => {
         if (decodedToken.is2faEnabled) {
           setStep(2); // Move to 2FA verification step
         } else {
-          //showing success message with react hot toast
-          toast.success("Login Successful");
           handleSuccessfulLogin(response.data.jwtToken, decodedToken);
         }
       } else {
