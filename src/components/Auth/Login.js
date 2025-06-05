@@ -59,9 +59,6 @@ const Login = () => {
       setLoading(true);
       const response = await api.post("/auth/public/signin", data);
 
-      //showing success message with react hot toast
-      toast.success("Login Successful");
-
       //reset the input field by using reset() function provided by react hook form after submission
       reset();
 
@@ -71,6 +68,8 @@ const Login = () => {
         if (decodedToken.is2faEnabled) {
           setStep(2); // Move to 2FA verification step
         } else {
+          //showing success message with react hot toast
+          toast.success("Login Successful");
           handleSuccessfulLogin(response.data.jwtToken, decodedToken);
         }
       } else {
