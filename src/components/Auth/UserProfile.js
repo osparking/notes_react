@@ -69,7 +69,7 @@ const UserProfile = () => {
       try {
         const response = await api.get(`/auth/user/2fa-status`);
         console.log("response.data: ", response.data);        
-        setIs2faEnabled(response.data.is2faEnabled);
+        setIs2faEnabled(response.data['2FA-활성화됨']);
       } catch (error) {
         setPageError(error?.response?.data?.message);
         toast.error("Error fetching 2FA status");
