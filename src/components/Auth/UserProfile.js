@@ -68,6 +68,7 @@ const UserProfile = () => {
     const fetch2FAStatus = async () => {
       try {
         const response = await api.get(`/auth/user/2fa-status`);
+        console.log("response.data: ", response.data);        
         setIs2faEnabled(response.data.is2faEnabled);
       } catch (error) {
         setPageError(error?.response?.data?.message);
@@ -519,7 +520,7 @@ const UserProfile = () => {
                       is2faEnabled ? "bg-green-800" : "bg-customRed"
                     } px-2 text-center py-1 text-xs mt-2 rounded-sm text-white`}
                   >
-                    {is2faEnabled ? "Activated" : "Deactivated"}
+                    {is2faEnabled ? "활성화됨" : "비활성됨"}
                   </span>
                 </h1>{" "}
                 <h3 className="text-slate-800 text-xl font-semibold">

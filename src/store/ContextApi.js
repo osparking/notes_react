@@ -56,7 +56,7 @@ export const ContextProvider = ({ children }) => {
     }
   }, [token]);
 
-  //ContextProvider 성분만 수입하면 응용의 어디서든 네 쌍의 <상태,세터> 에 접근 가능
+  //ContextProvider 성분만 수입하면 응용의 어디서든 네 쌍의 <상태, 세터> 에 접근 가능
   return (
     <ContextApi.Provider
       value={{
