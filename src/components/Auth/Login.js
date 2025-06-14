@@ -114,6 +114,7 @@ const Login = () => {
 
   //if there is token  exist navigate  the user to the home page if he tried to access the login page
   useEffect(() => {
+    localStorage.removeItem("CSRF_TOKEN");
     if (token) navigate("/");
   }, [navigate, token]);
 
